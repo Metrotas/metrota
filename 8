@@ -1,0 +1,78 @@
+#include <iostream>
+#include <cmath>
+#include <string>
+#include <vector>
+#include <functional>
+void func1()
+{
+int x;
+std::cout << "Введите пятизначное число: ";
+std::cin >> x;
+std::cout << "Цифры данного числа: \n";
+for (int i = 4; i >= 0; i--)
+std::cout << (x / (int(pow(10, i)))) % 10 << std::endl;
+std::cout << "Для выбора новой задачи нажмите Enter";
+std::cin.ignore();
+std::cin.get();
+}
+void func2()
+{
+char ch;
+std::cout << "Введите латинскую букву нижнего регистра: ";
+std::cin >> ch;
+ch = toupper(ch);
+std::cout << "Введенная латинская буква в верхнем регистре: " << ch << std::endl;
+std::cout << "Для выбора новой задачи нажмите Enter";
+std::cin.ignore();
+std::cin.get();
+}
+double arithmeticMeanofTheArray(double* arr, int size)
+{
+double sum = 0;
+for (size_t i = 0; i < size; i++)
+sum += arr[i];
+return sum / size;
+}
+void func3()
+{
+int size;
+std::cout << "Введите размер массива: ";
+std::cin >> size;
+double* arr = new double[size];
+std::cout << "Заполните массив: ";
+for (size_t i = 0; i < size; i++)
+std::cin >> arr[i];
+std::cout << "Среднее арифметическое массива: " << arithmeticMeanofTheArray(arr, size) << std::endl;
+std::cout << "Для выбора новой задачи нажмите Enter";
+std::cin.ignore();
+std::cin.get();
+}
+void showMenu(std::vector<std::string> titleVector, std::vector<std::function<void()>> fVector)
+{
+while (true)
+{
+int choice = 0;
+std::cout << "    Номера задач\n";
+for (size_t i = 0; i < titleVector.size(); i++)
+std::cout << i + 1 << ") " << titleVector[i] << std::endl;
+std::cout << "Введите номер выбранной задачи: ";
+std::cin >> choice;
+if (choice - 1 < 0 || choice - 1 >= titleVector.size())
+break;
+else
+fVector[choice - 1]();
+}
+}
+int main()
+{
+setlocale(LC_ALL, "ru");
+std::vector<std::string> titleVector =
+{
+"Вывод цифр пятизначного числа.",
+"Поменять регистр буквы с нижнего на верхний.",
+"Среднее арифметическое целого массива."
+};
+std::vector<std::function<void()>> fVector = { func1, func2, func3 };
+showMenu(titleVector, fVector);
+return 0;
+}
